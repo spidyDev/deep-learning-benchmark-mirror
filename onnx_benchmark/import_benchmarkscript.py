@@ -68,7 +68,6 @@ def profile_model(model_path, test_data, context):
 if __name__ == '__main__':
        from sys import argv
        ctx = str(argv[1])
-       # subprocess.call(["./onnx_benchmark/setup.sh",ctx])
        for directory in os.listdir("./models"):
            model_dir = os.path.join("./models", directory)
            if os.path.isdir(model_dir):

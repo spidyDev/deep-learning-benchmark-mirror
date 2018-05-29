@@ -3,14 +3,14 @@
 install_mxnet()
 {
     if [ $1 == "cpu" ]; then
-        sudo pip2 uninstall --yes mxnet-cu90
+        sudo pip uninstall --yes mxnet-cu90
         echo "Installing mxnet cpu ......"
-    	sudo pip2 install mxnet --pre
+        sudo pip install mxnet --pre
     fi
     if [ $1 == "gpu" ]; then
-        sudo pip2 uninstall --yes mxnet
+        sudo pip uninstall --yes mxnet
         echo "Installing mxnet gpu ......"
-	sudo pip2 install mxnet-cu90 --pre
+        sudo pip install mxnet-cu90 --pre
     fi
 }
 
@@ -19,7 +19,7 @@ install_onnx()
     echo "Installing protobuf ......."
     sudo apt-get -y install protobuf-compiler libprotoc-dev
     echo "Installing ONNX version 1.1.1 ........"
-    sudo pip2 install protobuf==3.5.2 onnx==1.1.1
+    sudo pip  install protobuf==3.5.2 onnx==1.1.1
 }
 
 
@@ -62,9 +62,12 @@ get_models()
 main() {
     get_models
     install_onnx
-    python2 ./onnx_benchmark/import_benchmarkscript.py "gpu"
-    install_mxnet "cpu"
-    python ./onnx_benchmark/import_benchmarkscript.py "cpu"
+    if [ $1 == "cpu" ]; then 
+        install_mxnet "cpu"
+    fi
+    if [ $1 == "gpu" ]; then
+        install_mxnet "gpu"
+    fi
 }
 
-main
+main $1
